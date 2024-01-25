@@ -5,10 +5,10 @@ You can describe your results in any language that is convenient for you, not ju
 ## Description
 
 [Describe what you have done]
-Задание — Фильтруй товар
+Задание — Спорт это классно!
 
 ## How to
-Распарсил входную строку и засунул в List. Применил несколько фильтров подряд и получил готовую строку
+Создал иерархию классов киберспорта
 
 
 [Describe how to run your application if there are any issues]
