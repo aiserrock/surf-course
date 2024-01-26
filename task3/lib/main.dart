@@ -7,8 +7,8 @@ class Car {
       : _productionYear = productionYear;
 
   // Приватные поля
-  String _brand;
-  String _model;
+  final String _brand;
+  final String _model;
   final int _productionYear;
   double _currentSpeed = 0.0;
   bool _engineStarted = false;
@@ -19,23 +19,23 @@ class Car {
 
   // Метод для запуска двигателя
   void startEngine() {
-    if (!_engineStarted) {
-      engine.start();
-      _engineStarted = true;
-    } else {
+    if (_engineStarted) {
       print('Двигатель уже запущен.');
+      return;
     }
+    engine.start();
+    _engineStarted = true;
   }
 
   // Метод для остановки двигателя
   void stopEngine() {
-    if (_engineStarted) {
-      engine.stop();
-      _engineStarted = false;
-      _currentSpeed = 0.0;
-    } else {
+    if (!_engineStarted) {
       print('Двигатель уже остановлен.');
+      return;
     }
+    engine.stop();
+    _engineStarted = false;
+    _currentSpeed = 0.0;
   }
 
   // Метод для ускорения автомобиля
@@ -76,13 +76,13 @@ class Engine {
 
 void main() {
   // Создаем объект класса Car с использованием различных конструкторов
-  var car1 = Car(
+  final car1 = Car(
     'Toyota',
     'Camry',
     2022,
     Engine('V8', 300),
   );
-  var car2 = Car.named(
+  final car2 = Car.named(
     'Tesla',
     'Model S',
     productionYear: 2023,
