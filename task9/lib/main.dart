@@ -1,77 +1,79 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  int _incrementCount = 0;
-  int _decrementCount = 0;
+  var _counter = 0;
+  var _incrementCount = 0;
+  var _decrementCount = 0;
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-      _incrementCount++;
-    });
+    _counter++;
+    _incrementCount++;
+    setState(() {});
   }
 
   void _decrementCounter() {
-    setState(() {
-      if (_counter > 0) {
-        _counter--;
-        _decrementCount++;
-      }
-    });
+    if (_counter > 0) {
+      _counter--;
+      _decrementCount++;
+    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Increment and Decrement Counter'),
+        title: const Text('Increment and Decrement Counter'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               'Counter Value:',
               style: TextStyle(fontSize: 18),
             ),
             Text(
               '$_counter',
-              style: TextStyle(fontSize: 48),
+              style: const TextStyle(fontSize: 48),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                   onPressed: _incrementCounter,
-                  child: Text('Increment'),
+                  child: const Text('Increment'),
                 ),
                 ElevatedButton(
                   onPressed: _decrementCounter,
-                  child: Text('Decrement'),
+                  child: const Text('Decrement'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Increment Count: $_incrementCount'),
             Text('Decrement Count: $_decrementCount'),
           ],
