@@ -19,14 +19,14 @@ class MyInteractiveWidget extends StatefulWidget {
   const MyInteractiveWidget({super.key});
 
   @override
-  _MyInteractiveWidgetState createState() => _MyInteractiveWidgetState();
+  State<MyInteractiveWidget> createState() => _MyInteractiveWidgetState();
 }
 
 class _MyInteractiveWidgetState extends State<MyInteractiveWidget> {
-  double _xPosition = 0.0;
-  double _yPosition = 0.0;
-  double _rotation = 0.0;
-  bool _isTapped = false;
+  var _xPosition = 0.0;
+  var _yPosition = 0.0;
+  var _rotation = 0.0;
+  var _isTapped = false;
 
   @override
   Widget build(BuildContext context) {
