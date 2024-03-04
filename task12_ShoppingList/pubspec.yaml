@@ -18,3 +18,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Sora
+      fonts:
+      - asset: assets/fonts/Sora-Regular.ttf
