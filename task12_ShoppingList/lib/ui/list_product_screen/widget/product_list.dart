@@ -15,23 +15,21 @@ class ProductListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          final item = getSortType(sortType)[index];
-          return Column(
-            children: [
-              ItemProductWidget(
-                item: item,
-                isFirstItem:
-                    (index == 0 || item.category != getSortType(sortType)[index - 1].category) &&
-                        (sortType == SortType.typeToA || sortType == SortType.typeFromA),
-              ),
-            ],
-          );
-        },
-        itemCount: dataForStudents.length,
-      ),
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        final item = getSortType(sortType)[index];
+        return Column(
+          children: [
+            ItemProductWidget(
+              item: item,
+              isFirstItem:
+                  (index == 0 || item.category != getSortType(sortType)[index - 1].category) &&
+                      (sortType == SortType.typeToA || sortType == SortType.typeFromA),
+            ),
+          ],
+        );
+      },
+      itemCount: dataForStudents.length,
     );
   }
 }
