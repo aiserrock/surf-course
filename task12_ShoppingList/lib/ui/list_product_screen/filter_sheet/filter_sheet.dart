@@ -58,7 +58,13 @@ class _FilterListScreenState extends State<FilterListScreen> {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
-              _customRadioListButton(title: StringRes.withoutSort, value: SortType.withoutSort),
+              _CustomRadioListButton(
+                context: context,
+                sortType: sortType,
+                title: StringRes.withoutSort,
+                value: SortType.withoutSort,
+                callback: _onSortTypeChanged,
+              ),
               const _Divider(),
               _byNameSection(context),
               const _Divider(),
@@ -86,8 +92,20 @@ class _FilterListScreenState extends State<FilterListScreen> {
             style: Theme.of(context).textTheme.displayMedium,
           ),
         ),
-        _customRadioListButton(title: StringRes.byNameFromAToZ, value: SortType.alphabetFromA),
-        _customRadioListButton(title: StringRes.bynameFromZToA, value: SortType.alphabetToA),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.byNameFromAToZ,
+          value: SortType.alphabetFromA,
+          callback: _onSortTypeChanged,
+        ),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.bynameFromZToA,
+          value: SortType.alphabetToA,
+          callback: _onSortTypeChanged,
+        ),
       ],
     );
   }
@@ -103,8 +121,20 @@ class _FilterListScreenState extends State<FilterListScreen> {
             style: Theme.of(context).textTheme.displayMedium,
           ),
         ),
-        _customRadioListButton(title: StringRes.byAge, value: SortType.lowToHighPrice),
-        _customRadioListButton(title: StringRes.decreasing, value: SortType.highToLowPrice),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.byAge,
+          value: SortType.lowToHighPrice,
+          callback: _onSortTypeChanged,
+        ),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.decreasing,
+          value: SortType.highToLowPrice,
+          callback: _onSortTypeChanged,
+        ),
       ],
     );
   }
@@ -120,16 +150,42 @@ class _FilterListScreenState extends State<FilterListScreen> {
             style: Theme.of(context).textTheme.displayMedium,
           ),
         ),
-        _customRadioListButton(title: StringRes.byTypeFromAToZ, value: SortType.typeFromA),
-        _customRadioListButton(title: StringRes.byTypeFromZToA, value: SortType.typeToA),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.byTypeFromAToZ,
+          value: SortType.typeFromA,
+          callback: _onSortTypeChanged,
+        ),
+        _CustomRadioListButton(
+          context: context,
+          sortType: sortType,
+          title: StringRes.byTypeFromZToA,
+          value: SortType.typeToA,
+          callback: _onSortTypeChanged,
+        ),
       ],
     );
   }
+}
 
-  Widget _customRadioListButton({
-    required String title,
-    required SortType value,
-  }) {
+class _CustomRadioListButton extends StatelessWidget {
+  const _CustomRadioListButton({
+    required this.context,
+    required this.sortType,
+    required this.title,
+    required this.value,
+    required this.callback,
+  });
+
+  final BuildContext context;
+  final SortType sortType;
+  final String title;
+  final SortType value;
+  final void Function(SortType?) callback;
+
+  @override
+  Widget build(BuildContext context) {
     return RadioListTile(
       activeColor: Theme.of(context).colorScheme.onPrimary,
       title: Text(
@@ -138,7 +194,7 @@ class _FilterListScreenState extends State<FilterListScreen> {
       ),
       value: value,
       groupValue: sortType,
-      onChanged: _onSortTypeChanged,
+      onChanged: callback,
     );
   }
 }

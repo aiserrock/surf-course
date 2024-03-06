@@ -23,7 +23,7 @@ class SummaryWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${dataForStudents.length.toString()} ${StringRes.products}',
+              '${dataForStudents.length} ${StringRes.products}',
               style: Theme.of(context).textTheme.displayMedium,
             ),
             Text(

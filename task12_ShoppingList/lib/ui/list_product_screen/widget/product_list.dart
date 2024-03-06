@@ -18,13 +18,13 @@ class ProductListWidget extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         final item = getSortType(sortType)[index];
+        final isFirstItem = item.category != getSortType(sortType)[index - 1].category;
         return Column(
           children: [
             ItemProductWidget(
               item: item,
-              isFirstItem:
-                  (index == 0 || item.category != getSortType(sortType)[index - 1].category) &&
-                      (sortType == SortType.typeToA || sortType == SortType.typeFromA),
+              isFirstItem: (index == 0 || isFirstItem) &&
+                  (sortType == SortType.typeToA || sortType == SortType.typeFromA),
             ),
           ],
         );

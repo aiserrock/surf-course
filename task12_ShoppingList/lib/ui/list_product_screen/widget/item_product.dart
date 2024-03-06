@@ -28,65 +28,26 @@ class ItemProductWidget extends StatelessWidget {
           ],
           Row(
             children: [
-              _icon(),
+              _IconWidget(item: item),
               const SizedBox(width: 12),
-              _textContent(context),
+              _TextContent(item: item),
             ],
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _textContent(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            item.title,
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              if (item.amount is Quantity)
-                Text(
-                  '${item.amount.value.toString()} ${StringRes.pieces}',
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-              if (item.amount is Grams)
-                Text(
-                  '${(item.amount.value / 1000).toString()} ${StringRes.kg}',
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-              const Spacer(),
-              Text(
-                '${splitBy(item.price)} ${StringRes.rub}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      decoration: item.sale != 0 ? TextDecoration.lineThrough : null,
-                      color: item.sale != 0 ? Theme.of(context).colorScheme.tertiary : null,
-                    ),
-              ),
-              const SizedBox(width: 16),
-              if (item.sale != 0) ...[
-                Text(
-                  '${splitBy(item.price * item.sale ~/ 100)} ${StringRes.rub}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(color: Theme.of(context).colorScheme.error),
-                ),
-                const SizedBox(width: 16),
-              ]
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+class _IconWidget extends StatelessWidget {
+  const _IconWidget({
+    required this.item,
+  });
 
-  Widget _icon() {
+  final ProductEntity item;
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 68,
       width: 68,
@@ -96,6 +57,64 @@ class ItemProductWidget extends StatelessWidget {
           item.imageUrl,
           fit: BoxFit.cover,
         ),
+      ),
+    );
+  }
+}
+
+class _TextContent extends StatelessWidget {
+  const _TextContent({
+    required this.item,
+  });
+
+  final ProductEntity item;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+    final isItemSaleNotZero = item.sale != 0;
+    final sale = item.price * item.sale ~/ 100;
+
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            item.title,
+            style: theme.displayMedium,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              if (item.amount is Quantity)
+                Text(
+                  '${item.amount.value.toString()} ${StringRes.pieces}',
+                  style: theme.displayMedium,
+                ),
+              if (item.amount is Grams)
+                Text(
+                  '${(item.amount.value / 1000).toString()} ${StringRes.kg}',
+                  style: theme.displayMedium,
+                ),
+              const Spacer(),
+              Text(
+                '${splitBy(item.price)} ${StringRes.rub}',
+                style: theme.bodySmall?.copyWith(
+                  decoration: isItemSaleNotZero ? TextDecoration.lineThrough : null,
+                  color: isItemSaleNotZero ? Theme.of(context).colorScheme.tertiary : null,
+                ),
+              ),
+              const SizedBox(width: 16),
+              if (isItemSaleNotZero) ...[
+                Text(
+                  '${splitBy(sale)} ${StringRes.rub}',
+                  style: theme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.error),
+                ),
+                const SizedBox(width: 16),
+              ]
+            ],
+          ),
+        ],
       ),
     );
   }

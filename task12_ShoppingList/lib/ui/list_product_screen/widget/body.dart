@@ -14,8 +14,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  SortType sortType = SortType.withoutSort;
-  bool isLoading = false;
+  SortType _sortType = SortType.withoutSort;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,38 +25,24 @@ class _BodyState extends State<Body> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              _productListHeader(context),
+              _ProductListHeader(
+                sortType: _sortType,
+                filterButtonCallback: _sortButtonTapped,
+              ),
               const SizedBox(height: 16),
               Expanded(
-                child: dataForStudents.isEmpty == true
+                child: dataForStudents.isEmpty
                     ? const Center(
                         child: Text(StringRes.thereIsNothingYet),
                       )
-                    : ProductListWidget(sortType: sortType),
+                    : ProductListWidget(sortType: _sortType),
               ),
               const Divider(),
               const SummaryWidget(),
             ],
           ),
         ),
-        if (isLoading) const Loader(),
-      ],
-    );
-  }
-
-  Widget _productListHeader(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            StringRes.listPurchases,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-          ),
-        ),
-        _sortButton(context),
+        if (_isLoading) const Loader(),
       ],
     );
   }
@@ -68,23 +54,64 @@ class _BodyState extends State<Body> {
         builder: (BuildContext context) {
           return FilterListScreen(
             products: dataForStudents,
-            initialSortType: sortType,
+            initialSortType: _sortType,
           );
         });
-    isLoading = true;
+    _isLoading = true;
     setState(() {});
+
     /// иммитация длительной работы сортировки
     await Future<void>.delayed(const Duration(seconds: 1));
     if (result != null) {
-      sortType = result;
-      isLoading = false;
+      _sortType = result;
+      _isLoading = false;
       setState(() {});
     }
   }
+}
 
-  Widget _sortButton(BuildContext context) {
+class _ProductListHeader extends StatelessWidget {
+  const _ProductListHeader({
+    required SortType sortType,
+    required this.filterButtonCallback,
+  }) : _sortType = sortType;
+
+  final SortType _sortType;
+  final VoidCallback filterButtonCallback;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            StringRes.listPurchases,
+            style: theme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+          ),
+        ),
+        _SortButton(sortType: _sortType, context: context, onTap: () => () {} //_sortButtonTapped,
+            ),
+      ],
+    );
+  }
+}
+
+class _SortButton extends StatelessWidget {
+  const _SortButton({
+    required SortType sortType,
+    required this.context,
+    required this.onTap,
+  }) : _sortType = sortType;
+
+  final SortType _sortType;
+  final BuildContext context;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: _sortButtonTapped,
+      onTap: onTap,
       child: Container(
         width: 32,
         height: 32,
@@ -101,7 +128,7 @@ class _BodyState extends State<Body> {
                 color: Theme.of(context).colorScheme.primaryContainer,
               ),
             ),
-            if (sortType != SortType.withoutSort)
+            if (_sortType != SortType.withoutSort)
               Container(
                 height: 8,
                 width: 8,
